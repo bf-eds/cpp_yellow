@@ -1,15 +1,16 @@
 //
-// Created by d.eroshenkov on 09.10.2018.
+// Created by d.eroshenkov on 17.10.2018.
 //
 
 #include <string>
-#include <iostream>
-#include <cassert>
 #include <vector>
-#include <map>
+#include <iostream>
+#include "bus_manager.h"
+#include "query.h"
+
+using namespace std;
 
 
-#include ""
 // Не меняя тела функции main, реализуйте функции и классы выше
 
 int main()
