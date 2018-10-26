@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <limits>
+#include <set>
 
 using namespace std;
 
@@ -13,10 +14,12 @@ void foo()
 
 int main()
 {
-    cout << numeric_limits<int>::min() << ":" << numeric_limits<int>::max() << endl;
-//    cout << (-1 < 1u) << endl;
+    set<string> s = {"123", "asdf", "432"};
+//    set<string> s;
+    auto range = s.equal_range("asf");
+
+    cout << (range.first == range.second) << endl;
 
 
-foo();
     return 0;
 }
