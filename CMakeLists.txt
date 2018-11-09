@@ -36,4 +36,6 @@ add_executable(week_4_assignment_10_2 week_4/assignment_10/find_starts_with_stri
 add_executable(week_4_assignment_11_1 week_4/assignment_11/build_expression.cpp)
 add_executable(week_4_assignment_11_2 week_4/assignment_11/build_expression_without_redundant_parentheses.cpp)
 add_executable(week_5_assignment_1 week_5/assignment_1/inheritance.cpp)
+add_executable(week_5_assignment_2 week_5/assignment_2/figures.cpp)
+add_executable(week_5_assignment_3 week_5/assignment_3/notifiers.cpp)
 add_executable(final_assignment final_assignment/course_project_yellow.cpp)
