@@ -1,147 +1,135 @@
 #include <iostream>
+#include <string>
 #include <vector>
-#include <limits>
-#include <set>
+#include <memory>
 
 using namespace std;
 
-void foo()
-{
-    cout << "asdf";
-    throw runtime_error("");
-}
 
-    int Evaluate() const override
+class Human
+{
+public:
+    Human(const string &name, const string &type) : Name(name), Type(type)
     {
-        return _x;
+    }
+
+    void Log() const
+    {
+        cout << Type << ": ";
+    }
+
+    virtual void Walk(const string &destination) const = 0;
+public:
+    string Name;
+    string Type;
+};
+
+
+class Student : public Human
+{
+public:
+
+    Student(const string &name, const string &favouriteSong) : Human(name, "Student"), FavouriteSong(favouriteSong)
+    {
+    }
+
+    void Learn() const
+    {
+        Log();
+        cout << Name << " learns" << endl;
+    }
+
+    void SingSong() const
+    {
+        Log();
+        cout << Name << " sings a song: " << FavouriteSong << endl;
+    }
+
+    void Walk(const string &destination) const
+    {
+        Log();
+        cout << Name << " walks to: " << destination << endl;
+        SingSong();
     }
 
 private:
-    const int &_x;
+    string FavouriteSong;
 };
 
-struct Op : public Node
+
+class Teacher : public Human
 {
-    Op(char value) : precedence([value]
-                                {
-                                    if (value == '*')
-                                    {
-                                        return 2;
-                                    }
-                                    else
-                                    {
-                                        return 1;
-                                    }
-                                }()), _op(value)
+public:
+
+    Teacher(const string &name, const string &subject) : Human(name, "Teacher"), Subject(subject)
     {
     }
 
-    const uint8_t precedence;
-
-    int Evaluate() const override
+    void Walk(const string &destination) const
     {
-        if (_op == '*')
-        {
-            return _left->Evaluate() * _right->Evaluate();
-        }
-        else if (_op == '+')
-        {
-            return _left->Evaluate() + _right->Evaluate();
-        }
-        else if (_op == '-')
-        {
-            return _left->Evaluate() - _right->Evaluate();
-        }
-
-        return 0;
+        Log();
+        cout << Name << " walks to: " << destination << endl;
     }
 
-    void SetLeft(shared_ptr<Node> node)
+    void Teach() const
     {
-        _left = node;
-    }
-
-    void SetRight(shared_ptr<Node> node)
-    {
-        _right = node;
+        Log();
+        cout << Name << " teaches: " << Subject << endl;
     }
 
 private:
-    const char _op;
-    shared_ptr<const Node> _left, _right;
+    string Subject;
 };
 
-template<class Iterator>
-shared_ptr<Node> Parse(Iterator token, Iterator end, const int &x)
+
+class Policeman : public Human
 {
-    // Empty expression
-    if (token == end)
+public:
+    Policeman(const string &name) : Human(name, "Policeman")
     {
-        return make_shared<Value>('0');
     }
 
-    stack<shared_ptr<Node>> values;
-    stack<shared_ptr<Op>> ops;
-
-    auto PopOps = [&](int precedence)
+    void Walk(const string &destination) const
     {
-        while (!ops.empty() && ops.top()->precedence >= precedence)
-        {
-            auto value1 = values.top();
-            values.pop();
-            auto value2 = values.top();
-            values.pop();
-            auto op = ops.top();
-            ops.pop();
-
-            op->SetRight(value1);
-            op->SetLeft(value2);
-
-            values.push(op);
-        }
-    };
-
-    while (token != end)
-    {
-        const auto &value = *token;
-        if (value >= '0' && value <= '9')
-        {
-            values.push(make_shared<Value>(value));
-        }
-        else if (value == 'x')
-        {
-            values.push(make_shared<Variable>(x));
-        }
-        else if (value == '*')
-        {
-            PopOps(2);
-            ops.push(make_shared<Op>(value));
-        }
-        else if (value == '+' || value == '-')
-        {
-            PopOps(1);
-            ops.push(make_shared<Op>(value));
-        }
-
-        ++token;
+        Log();
+        cout << Name << " walks to: " << destination << endl;
     }
 
-    while (!ops.empty())
+    void Check(const Human &t) const
     {
-        PopOps(0);
+        Log();
+        cout << Name << " checks " << t.Type << ". " << t.Type << "'s name is: " << t.Name << endl;
     }
+};
 
-    return values.top();
+
+void VisitPlaces(Human &t, const vector<string> &places)
+{
+    for (auto p : places)
+    {
+        t.Walk(p);
+    }
 }
 
 int main()
 {
-    set<string> s = {"123", "asdf", "432"};
-//    set<string> s;
-    auto range = s.equal_range("asf");
+    Teacher t("Jim", "Math");
+    Student s("Ann", "We will rock you");
+    Policeman p("Bob");
 
-    cout << (range.first == range.second) << endl;
-
-
+    VisitPlaces(t, {"Moscow", "London"});
+    p.Check(s);
+    VisitPlaces(s, {"Moscow", "London"});
     return 0;
 }
+
+
+/*
+Teacher: Jim walks to: Moscow
+Teacher: Jim walks to: London
+Policeman: Bob checks Student. Student's name is: Ann
+Student: Ann walks to: Moscow
+Student: Ann sings a song: We will rock you
+Student: Ann walks to: London
+Student: Ann sings a song: We will rock you
+ */

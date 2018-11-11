@@ -38,4 +38,5 @@ add_executable(week_4_assignment_11_2 week_4/assignment_11/build_expression_with
 add_executable(week_5_assignment_1 week_5/assignment_1/inheritance.cpp)
 add_executable(week_5_assignment_2 week_5/assignment_2/figures.cpp)
 add_executable(week_5_assignment_3 week_5/assignment_3/notifiers.cpp)
-add_executable(final_assignment final_assignment/course_project_yellow.cpp)
+add_executable(week_5_assignment_4 week_5/assignment_4/people.cpp)
+add_executable(final_assignment final_assignment/main.cpp final_assignment/token.cpp final_assignment/condition_parser.cpp final_assignment/condition_parser_test.cpp final_assignment/date.cpp final_assignment/database.cpp final_assignment/node.cpp final_assignment/test_runner.cpp)
