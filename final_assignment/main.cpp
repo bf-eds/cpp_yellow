@@ -106,6 +106,8 @@ ostream &operator<<(ostream &os, const vector<string> strings)
     {
         os << item << " ";
     }
+
+    return os;
 }
 
 void TestParseEvent()

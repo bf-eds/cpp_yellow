@@ -13,34 +13,43 @@ void Database::Add(const Date &date, const string &event)
         return;
     }
 
-    size_t prev = records_[date].first.size();
-    records_[date].first.insert(event);
+//    size_t prev = unordered_records_[date].first.size();
+//    unordered_records_[date].first.insert(event);
+//
+//    if (prev < unordered_records_[date].first.size())
+//    {
+//        unordered_records_[date].second.push_back(event);
+//    }
 
-    if (prev < records_[date].first.size())
+    size_t prev = unordered_records_[date].size();
+    unordered_records_[date].insert(event);
+
+    if (prev < unordered_records_[date].size())
     {
-        records_[date].second.push_back(event);
+        ordered_records_[date].push_back(event);
     }
+
 }
 
 void Database::Print(ostream &os) const
 {
-    for (const auto &record : records_)
+    for (const auto &record : ordered_records_)
     {
         Date d = record.first;
         string str = d.GetString();
 
-        for (const auto &event:record.second.second)
+        for (const auto &event:record.second)
         {
-            cout << str + " " + event << endl;
+            os << str + " " + event << endl;
         }
     }
 }
 
 const string Database::Last(const Date &date) const
 {
-    auto upper = records_.upper_bound(date);
+    auto upper = ordered_records_.upper_bound(date);
 
-    if (upper != records_.begin())
+    if (upper != ordered_records_.begin())
     {
         upper--;
     }
@@ -49,7 +58,7 @@ const string Database::Last(const Date &date) const
         return "No entries";
     }
 
-    return (*upper).first.GetString() + " " + (*upper).second.second.back();
+    return (*upper).first.GetString() + " " + (*upper).second.back();
 }
 
 void TestDatabase()
