@@ -31,7 +31,7 @@ void TestAll();
 
 int main()
 {
-    TestAll();
+//    TestAll();
 
     Database db;
 

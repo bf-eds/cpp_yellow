@@ -5,7 +5,7 @@
 #include "node.h"
 
 
-bool DateComparisonNode::Evaluate(const Date &date, const string &event)
+bool DateComparisonNode::Evaluate(const Date &date, const string &event) const
 {
     switch (cmp_)
     {
@@ -26,7 +26,7 @@ bool DateComparisonNode::Evaluate(const Date &date, const string &event)
     }
 }
 
-bool LogicalOperationNode::Evaluate(const Date &date, const string &event)
+bool LogicalOperationNode::Evaluate(const Date &date, const string &event) const
 {
     switch (op_)
     {
@@ -39,7 +39,7 @@ bool LogicalOperationNode::Evaluate(const Date &date, const string &event)
     }
 }
 
-bool EventComparisonNode::Evaluate(const Date &date, const string &event)
+bool EventComparisonNode::Evaluate(const Date &date, const string &event) const
 {
     switch (cmp_)
     {
@@ -60,7 +60,7 @@ bool EventComparisonNode::Evaluate(const Date &date, const string &event)
     }
 }
 
-bool Node::Evaluate(const Date &date, const string &event)
+bool EmptyNode::Evaluate(const Date &date, const string &event) const
 {
     return true;
 }

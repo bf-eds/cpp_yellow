@@ -8,57 +8,47 @@
 
 void Database::Add(const Date &date, const string &event)
 {
-    if (event.empty() || (date.GetString() == "0000-00-00"))
+    if (records_set[date].count(event))
     {
         return;
     }
-
-//    size_t prev = unordered_records_[date].first.size();
-//    unordered_records_[date].first.insert(event);
-//
-//    if (prev < unordered_records_[date].first.size())
-//    {
-//        unordered_records_[date].second.push_back(event);
-//    }
-
-    size_t prev = unordered_records_[date].size();
-    unordered_records_[date].insert(event);
-
-    if (prev < unordered_records_[date].size())
-    {
-        ordered_records_[date].push_back(event);
-    }
-
+    records_set[date].insert(event);
+    records_vec[date].push_back(event);
 }
 
 void Database::Print(ostream &os) const
 {
-    for (const auto &record : ordered_records_)
+    for (const auto &record : records_vec)
     {
-        Date d = record.first;
-        string str = d.GetString();
+        string date = record.first.GetString();
 
-        for (const auto &event:record.second)
+        for (const auto &event : record.second)
         {
-            os << str + " " + event << endl;
+//            string str;
+//            str += date;
+//            str += " ";
+//            str += event;
+//            os << str << endl;
+            os << date << " " << event << endl;
         }
     }
 }
 
 const string Database::Last(const Date &date) const
 {
-    auto upper = ordered_records_.upper_bound(date);
+    auto upper = records_set.upper_bound(date);
 
-    if (upper != ordered_records_.begin())
+    if (upper != records_set.begin())
     {
         upper--;
     }
     else
     {
-        return "No entries";
+        throw invalid_argument("");
     }
 
-    return (*upper).first.GetString() + " " + (*upper).second.back();
+    return (*upper).first.GetString() + " " + records_vec.at((*upper).first).back();
+
 }
 
 void TestDatabase()

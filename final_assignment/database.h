@@ -20,35 +20,67 @@ public:
     template<typename Predicate>
     int RemoveIf(Predicate predicate)
     {
-        int prev_size = unordered_records_.size();
-        auto remove_begin = remove_if(unordered_records_.begin(), unordered_records_.end(), predicate);
-//        remove(remove_beign, unordered_records_.end());
-        unordered_records_.erase(remove_begin, unordered_records_.end());
-        int count = unordered_records_.size() - prev_size;
+        int count = 0;
 
+        for (auto item = records_vec.begin(); item != records_vec.end();)
+        {
+            /* Remove from vector. */
+            auto first_false = stable_partition(item->second.begin(), item->second.end(), [&](string event)
+            { return predicate(item->first, event); });
 
-        /* TODO: удалить из вектора тоже, использовать stable_partition. */
+            for (auto it = item->second.begin(); it != first_false; it++)
+            {
+                records_set.at(item->first).erase(*it);
+                count++;
+            }
 
-        return 0;
+            item->second.erase(item->second.begin(), first_false);
+
+            /* Check if set/vector is empty. */
+            if (item->second.empty())
+            {
+                records_vec.erase(item->first);
+                records_set.erase(item->first);
+            }
+            ++item;
+        }
+
+        return count;
     }
 
     template<typename Predicate>
     vector<string> FindIf(Predicate predicate) const
     {
-        return {};
+        vector<string> events;
+
+        for (auto item = records_vec.begin(); item != records_vec.end();)
+        {
+            for (auto set_event = item->second.begin(); set_event != item->second.end(); set_event++)
+            {
+                if (predicate(item->first, *set_event))
+                {
+                    string str = item->first.GetString();
+                    str += " ";
+                    str += *set_event;
+                    events.push_back(str);
+                }
+            }
+            ++item;
+        }
+
+        return events;
     }
 
     const string Last(const Date &date) const;
 
     int Size() const
     {
-        return unordered_records_.size();
+        return records_set.size();
     }
 
 private:
-//    map<Date, pair<set<string>, vector<string>>> records_;
-    map<Date, set<string>> unordered_records_;
-    map<Date, vector<string>> ordered_records_;
+    map<Date, set<string>> records_set;
+    map<Date, vector<string>> records_vec;
 };
 
 void TestDatabase();
