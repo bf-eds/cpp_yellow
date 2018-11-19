@@ -35,10 +35,10 @@ public:
 
     string GetFullName(int year)
     {
-        // получить имя и фамилию по состоянию на конец года year
+        // получить имя и фамилию по состоянию на конец года year_
         // с помощью двоичного поиска
 
-        // получаем имя и фамилию по состоянию на год year
+        // получаем имя и фамилию по состоянию на год year_
         const string first_name = FindNameByYear(first_names, year);
         const string last_name = FindNameByYear(last_names, year);
 

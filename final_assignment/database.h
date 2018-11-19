@@ -39,10 +39,13 @@ public:
             /* Check if set/vector is empty. */
             if (item->second.empty())
             {
-                records_vec.erase(item->first);
                 records_set.erase(item->first);
+                item = records_vec.erase(item);
             }
-            ++item;
+            else
+            {
+                ++item;
+            }
         }
 
         return count;

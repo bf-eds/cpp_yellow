@@ -11,16 +11,31 @@ using namespace std;
 class Date
 {
 public:
-    Date(const int year = 0, const int month = 0, const int day = 0) : year(year), month(month), day(day)
+    Date(const int year = 0, const int month = 0, const int day = 0) : year_(year), month_(month), day_(day)
     {
     }
 
     const string GetString() const;
 
+    int GetYear() const
+    {
+        return year_;
+    }
+
+    int GetMonth() const
+    {
+        return month_;
+    }
+
+    int GetDay() const
+    {
+        return day_;
+    }
+
 private:
-    const int year;
-    const int month;
-    const int day;
+    const int year_;
+    const int month_;
+    const int day_;
 
 };
 

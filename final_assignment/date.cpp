@@ -3,8 +3,12 @@
 //
 
 #include "date.h"
+
 #include <iomanip>
+#include <vector>
+
 #include "test_runner.h"
+
 
 Date ParseDate(istream &is)
 {
@@ -38,7 +42,7 @@ Date ParseDate(istream &is)
 const string Date::GetString() const
 {
     stringstream ss;
-    ss << setfill('0') << setw(4) << year << '-' << setw(2) << month << '-' << setw(2) << day;
+    ss << setfill('0') << setw(4) << year_ << '-' << setw(2) << month_ << '-' << setw(2) << day_;
 
     return ss.str();
 }
@@ -50,13 +54,70 @@ ostream &operator<<(ostream &os, const Date &date)
 
 bool operator<(const Date &lhs, const Date &rhs)
 {
-    return (lhs.GetString() < rhs.GetString());
+    return vector<int>{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} <
+           vector<int>{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
 }
 
 bool operator==(const Date &lhs, const Date &rhs)
 {
-    return (lhs.GetString() == rhs.GetString());
+    return vector<int>{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} ==
+           vector<int>{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
 }
+
+bool operator<=(const Date &lhs, const Date &rhs)
+{
+    return vector<int>{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} <=
+           vector<int>{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
+}
+
+bool operator>(const Date &lhs, const Date &rhs)
+{
+    return vector<int>{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} >
+           vector<int>{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
+}
+
+bool operator>=(const Date &lhs, const Date &rhs)
+{
+    return vector<int>{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} >=
+           vector<int>{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
+}
+
+bool operator!=(const Date &lhs, const Date &rhs)
+{
+    return vector<int>{lhs.GetYear(), lhs.GetMonth(), lhs.GetDay()} !=
+           vector<int>{rhs.GetYear(), rhs.GetMonth(), rhs.GetDay()};
+}
+
+
+//bool operator<(const Date &lhs, const Date &rhs)
+//{
+//    return (lhs.GetString() < rhs.GetString());
+//}
+//
+//bool operator==(const Date &lhs, const Date &rhs)
+//{
+//    return (lhs.GetString() == rhs.GetString());
+//}
+//
+//bool operator<=(const Date &lhs, const Date &rhs)
+//{
+//    return (lhs.GetString() <= rhs.GetString());
+//}
+//
+//bool operator>(const Date &lhs, const Date &rhs)
+//{
+//    return (lhs.GetString() > rhs.GetString());
+//}
+//
+//bool operator>=(const Date &lhs, const Date &rhs)
+//{
+//    return (lhs.GetString() >= rhs.GetString());
+//}
+//
+//bool operator!=(const Date &lhs, const Date &rhs)
+//{
+//    return (lhs.GetString() != rhs.GetString());
+//}
 
 void TestParseDate()
 {
@@ -91,22 +152,4 @@ void TestParseDate()
     }
 }
 
-bool operator<=(const Date &lhs, const Date &rhs)
-{
-    return (lhs.GetString() <= rhs.GetString());
-}
 
-bool operator>(const Date &lhs, const Date &rhs)
-{
-    return (lhs.GetString() > rhs.GetString());
-}
-
-bool operator>=(const Date &lhs, const Date &rhs)
-{
-    return (lhs.GetString() >= rhs.GetString());
-}
-
-bool operator!=(const Date &lhs, const Date &rhs)
-{
-    return (lhs.GetString() != rhs.GetString());
-}

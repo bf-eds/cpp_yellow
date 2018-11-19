@@ -123,28 +123,28 @@ private:
 class Person
 {
 public:
-    void ChangeFirstName(int year, const string &first_name)
+    void ChangeFirstName(int year_, const string &first_name)
     {
-        // добавить факт изменения имени на first_name в год year
-        records[year].firstName = first_name;
+        // добавить факт изменения имени на first_name в год year_
+        records[year_].firstName = first_name;
     }
 
-    void ChangeLastName(int year, const string &last_name)
+    void ChangeLastName(int year_, const string &last_name)
     {
-        // добавить факт изменения фамилии на last_name в год year
-        records[year].lastName = last_name;
+        // добавить факт изменения фамилии на last_name в год year_
+        records[year_].lastName = last_name;
     }
 
-    string GetFullName(int year)
+    string GetFullName(int year_)
     {
-        // получить имя и фамилию по состоянию на конец года year
+        // получить имя и фамилию по состоянию на конец года year_
 
         string first;
         string last;
 
         for (auto item : records)
         {
-            if (item.first <= year)
+            if (item.first <= year_)
             {
                 if (!item.second.firstName.empty())
                 {
